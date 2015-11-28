@@ -9,7 +9,9 @@
 #include <stdio.h>
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
-    return 0;
+    
+    FILE* filePtr1 = fopen("input.txt","r");
+    FILE* filePtr2 = fopen("output.txt","w");
+    
+    
 }
