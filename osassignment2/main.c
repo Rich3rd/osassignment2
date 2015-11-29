@@ -29,6 +29,7 @@ char tempString[1024];
 char tempString2[1024];
 
 int i;
+int numberOfLines;
 
 typedef struct circular_buffer
 {
@@ -107,6 +108,7 @@ void *readerThread()
     {
 //        printf("%s",fileBuffer);
         cb_push_back(&CircleBuffer,fileBuffer);
+        numberOfLines ++;
     }
     pthread_mutex_unlock(&mutex);
     return 0;
@@ -116,12 +118,14 @@ void *writerThread()
 {
     
     pthread_mutex_lock(&mutex);
-    do
+    for (i=0; i<numberOfLines;i++)
     {
-    cb_pop_front(&CircleBuffer,&tempString);
-          strcpy(tempString2, tempString);
-    printf("%s",tempString);
-    }while(strcmp(tempString, tempString2)!= 0);
+        cb_pop_front(&CircleBuffer,&tempString);
+        printf("%s",tempString);
+        fprintf(filePtr2,"%s",tempString);
+        numberOfLines--;
+    
+    }
     
     pthread_mutex_unlock(&mutex);
     
